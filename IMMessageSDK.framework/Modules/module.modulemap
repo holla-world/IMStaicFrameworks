@@ -1,0 +1,11 @@
+framework module IMMessageSDK {
+  umbrella header "IMMessageSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module IMMessageSDK.Swift {
+    header "IMMessageSDK-Swift.h"
+    requires objc
+}
