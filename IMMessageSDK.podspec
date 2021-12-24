@@ -14,8 +14,8 @@ Pod::Spec.new do |spec|
   spec.homepage     = "https://github.com"
   spec.license      = "MIT"
   spec.author       = { "maopenglin" => "maopenglin@holla.world" }
-  spec.source       = { :http => "https://github.com/holla-world/IMStaicFrameworks/tree/master/IMMessageSDK.framework" }
-  spec.vendored_frameworks  =  "IMMessageSDK.framework"
+  spec.source = { :http => "https://raw.githubusercontent.com/holla-world/IMStaicFrameworks/master/IMMessageSDK.framework.zip"}
+  spec.ios.vendored_framework  =  "IMMessageSDK.framework"
   spec.swift_version = '5.0'
   spec.ios.deployment_target = '10.0'
   spec.dependency 'RxSwift', '~> 5.0'
