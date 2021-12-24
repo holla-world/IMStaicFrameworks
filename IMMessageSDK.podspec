@@ -9,15 +9,15 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "IMMessageSDK"
-  spec.ios.deployment_target = '10.0'
   spec.version      = "0.0.1"
   spec.summary      = "kIMMessageSDK"
   spec.homepage     = "https://github.com"
   spec.license      = "MIT"
   spec.author       = { "maopenglin" => "maopenglin@holla.world" }
-  spec.source       = { :http => "https://github.com/holla-world/IMStaicFrameworks/IMMessageSDK.framework" }
+  spec.source       = { :http => "https://github.com/holla-world/IMStaicFrameworks/tree/master/IMMessageSDK.framework" }
   spec.vendored_frameworks  =  "IMMessageSDK.framework"
   spec.swift_version = '5.0'
+  spec.ios.deployment_target = '10.0'
   spec.dependency 'RxSwift', '~> 5.0'
   spec.dependency 'SwiftyBeaver'
 
