@@ -17,9 +17,6 @@ Pod::Spec.new do |spec|
   spec.source = { :http => "https://raw.githubusercontent.com/holla-world/IMStaicFrameworks/master/IMMessageSDK.framework.zip"}
   spec.ios.vendored_framework  =  "IMMessageSDK.framework"
   spec.swift_version = '5.0'
-  spec.pod_target_xcconfig = { 'ONLY_ACTIVE_ARCH' => 'YES' }
-  spec.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
-  spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   spec.ios.deployment_target = '10.0'
   spec.dependency 'RxSwift', '~> 5.0'
   spec.dependency 'SwiftyBeaver'
