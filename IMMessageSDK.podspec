@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "IMMessageSDK"
-  spec.version      = "0.1.3"
+  spec.version      = "0.1.4"
   spec.summary      = "kIMMessageSDK"
   spec.homepage     = "https://github.com"
   spec.license      = "MIT"
