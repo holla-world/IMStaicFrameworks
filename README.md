@@ -1,0 +1,2 @@
+pod 'IMMessageSDK'
+import  IMMessageSDK
