@@ -235,7 +235,7 @@ SWIFT_CLASS("_TtC12IMMessageSDK9IMCommand")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-typedef SWIFT_ENUM(NSInteger, IMCommandType, closed) {
+typedef SWIFT_ENUM(NSInteger, IMCommandType, open) {
   IMCommandTypeUnknownCommand = 0,
   IMCommandTypeConversationCreation = 1,
   IMCommandTypeProjectCustomized = 2,
@@ -268,7 +268,7 @@ SWIFT_CLASS("_TtC12IMMessageSDK14IMConversation")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-typedef SWIFT_ENUM(NSInteger, IMConversationType, closed) {
+typedef SWIFT_ENUM(NSInteger, IMConversationType, open) {
   IMConversationTypeUnknownConversation = 0,
   IMConversationTypePrivateConversation = 1,
   IMConversationTypeGroupConversation = 2,
@@ -299,7 +299,7 @@ SWIFT_CLASS("_TtC12IMMessageSDK9IMMessage")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-typedef SWIFT_ENUM(NSInteger, IMMessageType, closed) {
+typedef SWIFT_ENUM(NSInteger, IMMessageType, open) {
   IMMessageTypeUnknownMessage = 0,
   IMMessageTypeTextMessage = 1,
   IMMessageTypeNotificationMessage = 2,
@@ -405,7 +405,7 @@ SWIFT_CLASS("_TtC12IMMessageSDK10IMMessager")
 - (void)unsubscribeOnlineWith:(NSArray<NSString *> * _Nullable)userIds callback:(void (^ _Nullable)(BOOL, NSString * _Nullable))callback;
 @end
 
-typedef SWIFT_ENUM(NSInteger, IMPendingMessageType, closed) {
+typedef SWIFT_ENUM(NSInteger, IMPendingMessageType, open) {
   IMPendingMessageTypeUnknownMessage = 0,
   IMPendingMessageTypePrivateMessage = 1,
   IMPendingMessageTypeCommandMessage = 2,
@@ -753,7 +753,7 @@ SWIFT_CLASS("_TtC12IMMessageSDK9IMCommand")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-typedef SWIFT_ENUM(NSInteger, IMCommandType, closed) {
+typedef SWIFT_ENUM(NSInteger, IMCommandType, open) {
   IMCommandTypeUnknownCommand = 0,
   IMCommandTypeConversationCreation = 1,
   IMCommandTypeProjectCustomized = 2,
@@ -786,7 +786,7 @@ SWIFT_CLASS("_TtC12IMMessageSDK14IMConversation")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-typedef SWIFT_ENUM(NSInteger, IMConversationType, closed) {
+typedef SWIFT_ENUM(NSInteger, IMConversationType, open) {
   IMConversationTypeUnknownConversation = 0,
   IMConversationTypePrivateConversation = 1,
   IMConversationTypeGroupConversation = 2,
@@ -817,7 +817,7 @@ SWIFT_CLASS("_TtC12IMMessageSDK9IMMessage")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-typedef SWIFT_ENUM(NSInteger, IMMessageType, closed) {
+typedef SWIFT_ENUM(NSInteger, IMMessageType, open) {
   IMMessageTypeUnknownMessage = 0,
   IMMessageTypeTextMessage = 1,
   IMMessageTypeNotificationMessage = 2,
@@ -923,7 +923,7 @@ SWIFT_CLASS("_TtC12IMMessageSDK10IMMessager")
 - (void)unsubscribeOnlineWith:(NSArray<NSString *> * _Nullable)userIds callback:(void (^ _Nullable)(BOOL, NSString * _Nullable))callback;
 @end
 
-typedef SWIFT_ENUM(NSInteger, IMPendingMessageType, closed) {
+typedef SWIFT_ENUM(NSInteger, IMPendingMessageType, open) {
   IMPendingMessageTypeUnknownMessage = 0,
   IMPendingMessageTypePrivateMessage = 1,
   IMPendingMessageTypeCommandMessage = 2,

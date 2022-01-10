@@ -1,0 +1,321 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
+// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name IMMessageSDK
+import Foundation
+@_exported import IMMessageSDK
+import ObjectMapper
+import Reachability
+import Realm
+import RealmSwift
+import RxSwift
+import Starscream
+import Swift
+import SwiftProtobuf
+import SwiftyBeaver
+import UIKit
+import _Concurrency
+extension RealmSwift.Realm {
+  public func perform(_ block: (() throws -> Swift.Void)) throws
+}
+@_hasMissingDesignatedInitializers final public class IMRealm {
+  public static let shared: IMMessageSDK.IMRealm
+  final public func realm() throws -> RealmSwift.Realm
+  final public func write(operation: (RealmSwift.Realm) -> Swift.Void) throws
+  @objc deinit
+}
+@objc public enum IMPendingMessageType : Swift.Int {
+  case unknownMessage = 0
+  case privateMessage
+  case commandMessage
+  case groupMessage
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum IMConversationType : Swift.Int {
+  case unknownConversation = 0
+  case privateConversation
+  case groupConversation
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct ListTransform<T> : ObjectMapper.TransformType where T : RealmSwift.Object, T : ObjectMapper.BaseMappable {
+  public init()
+  public typealias Object = RealmSwift.List<T>
+  public typealias JSON = [Any]
+  public func transformFromJSON(_ value: Any?) -> RealmSwift.List<T>?
+  public func transformToJSON(_ value: IMMessageSDK.ListTransform<T>.Object?) -> IMMessageSDK.ListTransform<T>.JSON?
+}
+@objc @_inheritsConvenienceInitializers public class IMCommand : RealmSwift.Object, ObjectMapper.Mappable {
+  @objc dynamic public var id: Swift.Int
+  @objc dynamic public var commandType: IMMessageSDK.IMCommandType {
+    @objc get
+    @objc set
+  }
+  @objc dynamic public var content: Swift.String?
+  @objc dynamic public var type: Swift.Int
+  required convenience public init?(map _: ObjectMapper.Map)
+  public func mapping(map: ObjectMapper.Map)
+  @objc public class func createProjectCustomizedCommand(content: Swift.String!) -> IMMessageSDK.IMCommand
+  @objc required dynamic public init()
+  @objc deinit
+}
+public protocol DetachableObject : AnyObject {
+  func detached() -> Self
+  static var detachableProperties: [Swift.String] { get }
+  static var undetachableProperties: [Swift.String] { get }
+}
+extension RealmSwift.Object : IMMessageSDK.DetachableObject {
+  @objc dynamic open class var detachableProperties: [Swift.String] {
+    @objc get
+  }
+  @objc dynamic open class var undetachableProperties: [Swift.String] {
+    @objc get
+  }
+  public func detached() -> Self
+}
+extension RealmSwift.List : IMMessageSDK.DetachableObject {
+  final public class var detachableProperties: [Swift.String] {
+    get
+  }
+  final public class var undetachableProperties: [Swift.String] {
+    get
+  }
+  final public func detached() -> RealmSwift.List<Element>
+  final public func toArray(limit: Swift.Int? = nil) -> [Element]
+}
+extension RealmSwift.Results {
+  public func toArray(limit: Swift.Int? = nil) -> [Element]
+  public func toList(limit: Swift.Int? = nil) -> RealmSwift.List<Element>
+}
+extension Foundation.Date {
+  public func currentTimeMillis() -> Swift.Int64
+}
+@objc @_inheritsConvenienceInitializers public class IMUser : RealmSwift.Object, ObjectMapper.Mappable {
+  @objc dynamic public var id: Swift.Int
+  @objc dynamic public var uid: Swift.String?
+  @objc dynamic public var accessToken: Swift.String?
+  @objc dynamic public var lastSyncAt: Swift.Int64
+  @objc override public static func primaryKey() -> Swift.String?
+  @objc override public static func indexedProperties() -> [Swift.String]
+  required convenience public init?(map _: ObjectMapper.Map)
+  public func mapping(map: ObjectMapper.Map)
+  convenience public init(uid: Swift.String!)
+  @objc override dynamic open func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc required dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class IMConversation : RealmSwift.Object, ObjectMapper.Mappable {
+  @objc dynamic public var id: Swift.Int
+  @objc dynamic public var conversationType: IMMessageSDK.IMConversationType {
+    @objc get
+    @objc set
+  }
+  @objc dynamic public var conversationId: Swift.String?
+  @objc dynamic public var currentUid: Swift.String?
+  @objc dynamic public var targetUid: Swift.String?
+  @objc dynamic public var type: Swift.Int
+  public var users: RealmSwift.List<Swift.String>
+  @objc dynamic public var lastReadAt: Swift.Int64
+  @objc dynamic public var latestMessageId: Swift.String?
+  @objc dynamic public var unread: Swift.Int
+  @objc dynamic public var createdAt: Swift.Int64
+  @objc dynamic public var updatedAt: Swift.Int64
+  @objc dynamic public var lastSyncAt: Swift.Int64
+  @objc dynamic public var latestMessage: Swift.String?
+  @objc override public static func primaryKey() -> Swift.String?
+  @objc override public static func indexedProperties() -> [Swift.String]
+  required convenience public init?(map _: ObjectMapper.Map)
+  public func mapping(map: ObjectMapper.Map)
+  @objc convenience public init(privateConversation user: IMMessageSDK.IMUser!, recipientUid: Swift.String!)
+  @objc convenience public init(groupConversation user: IMMessageSDK.IMUser!, conversationId: Swift.String!)
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc required dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class IMMessage : RealmSwift.Object, ObjectMapper.Mappable {
+  @objc dynamic public var id: Swift.Int
+  @objc dynamic public var messageType: IMMessageSDK.IMMessageType {
+    @objc get
+    @objc set
+  }
+  @objc dynamic public var messageId: Swift.String?
+  @objc dynamic public var localConversationId: Swift.Int
+  @objc dynamic public var conversationId: Swift.String?
+  @objc dynamic public var senderUid: Swift.String?
+  @objc dynamic public var content: Swift.String?
+  @objc dynamic public var extras: Swift.String?
+  @objc dynamic public var currentUid: Swift.String?
+  @objc dynamic public var createdAt: Swift.Int64
+  @objc dynamic public var type: Swift.Int
+  @objc dynamic public var isLocal: Swift.Bool
+  @objc override public static func primaryKey() -> Swift.String?
+  @objc override public static func indexedProperties() -> [Swift.String]
+  @objc override public static func ignoredProperties() -> [Swift.String]
+  required convenience public init?(map _: ObjectMapper.Map)
+  public func mapping(map: ObjectMapper.Map)
+  convenience public init(user: IMMessageSDK.IMUser!, localConversationId: Swift.Int!, content: Swift.String!, createdAt: Swift.Int64!)
+  @objc public class func createTextMessage(content: Swift.String!, extras: Swift.String? = nil) -> IMMessageSDK.IMMessage
+  @objc public class func createNotificationMessage(content: Swift.String?, extras: Swift.String!) -> IMMessageSDK.IMMessage
+  @objc override dynamic open func isEqual(_ object: Any?) -> Swift.Bool
+  @objc required dynamic public init()
+  @objc deinit
+}
+@objc public class InvalidAccessTokenNotificationData : ObjectiveC.NSObject {
+  final public let token: Swift.String
+  @objc public init(token: Swift.String)
+  @objc deinit
+}
+@objc public class ReceivedCommandNotificationData : ObjectiveC.NSObject {
+  final public let command: IMMessageSDK.IMCommand
+  @objc public init(command: IMMessageSDK.IMCommand)
+  @objc deinit
+}
+@objc public class ReceivedMessageNotificationData : ObjectiveC.NSObject {
+  final public let localConversationId: Swift.Int
+  final public let messages: [IMMessageSDK.IMMessage]
+  @objc public init(localConversationId: Swift.Int, messages: [IMMessageSDK.IMMessage])
+  @objc deinit
+}
+@objc public class UpdatedConversationNotificationData : ObjectiveC.NSObject {
+  final public let conversations: [IMMessageSDK.IMConversation]
+  @objc public init(conversations: [IMMessageSDK.IMConversation])
+  @objc deinit
+}
+@objc public class CreationConversationNotificationData : ObjectiveC.NSObject {
+  final public let user: IMMessageSDK.IMUser
+  final public let conversation: IMMessageSDK.IMConversation
+  @objc public init(user: IMMessageSDK.IMUser, conversation: IMMessageSDK.IMConversation)
+  @objc deinit
+}
+@objc public protocol InvalidRealmCallback {
+  @objc func onInvalidRealm(_ error: Swift.Error)
+}
+@objc public protocol InvalidAccessTokenCallback {
+  @objc func onInvalidAccessToken()
+}
+@objc public protocol ReceivedCommandCallback {
+  @objc func onReceived(_ command: IMMessageSDK.IMCommand)
+}
+@objc public protocol ReceivedMessageCallback {
+  @objc func onReceived(_ localConversationId: Swift.Int, _ messages: [IMMessageSDK.IMMessage])
+}
+@objc public protocol UpdatedConversationCallback {
+  @objc func onUpdated(_ conversations: [IMMessageSDK.IMConversation])
+}
+@objc public protocol MessageSyncCallback {
+  @objc func onSyncSuccess(_ lastSyncAt: Swift.Int64)
+}
+@objc public protocol SocketStatusCallback {
+  @objc func onAvailable()
+  @objc func onUnAvailable()
+  @objc func onOpened()
+  @objc func onClosed()
+}
+@objc public class IMMessager : ObjectiveC.NSObject {
+  @objc public var isLogin: Swift.Bool {
+    @objc get
+  }
+  @objc public init(endpoint: Swift.String)
+  @objc public func login(uid: Swift.String, accessToken: Swift.String, autoSync: Swift.Bool = true) throws
+  @objc public func logout()
+  @objc public func ensureConnected(_ callback: (() -> Swift.Void)? = nil)
+  @objc public func getCurrentUser(callback: @escaping (IMMessageSDK.IMUser?, Swift.Error?) -> Swift.Void)
+  @objc public func enableDebug()
+  @objc deinit
+}
+extension IMMessageSDK.IMMessager {
+  @objc dynamic public func sendPrivateMessage(recipientUid: Swift.String, body: Swift.String, extras: Swift.String? = nil, callback: @escaping (IMMessageSDK.IMMessage?, Swift.Error?) -> Swift.Void)
+  @objc dynamic public func sendPrivateMessage(recipientUid: Swift.String, message: IMMessageSDK.IMMessage, callback: @escaping (IMMessageSDK.IMMessage?, Swift.Error?) -> Swift.Void)
+  @objc dynamic public func sendCommandMessage(recipientUid: Swift.String, body: Swift.String, callback: @escaping (IMMessageSDK.IMCommand?, Swift.Error?) -> Swift.Void)
+  @objc dynamic public func sendCommandMessage(recipientUids: [Swift.String], body: Swift.String, callback: @escaping (IMMessageSDK.IMCommand?, Swift.Error?) -> Swift.Void)
+  @objc dynamic public func fetchMessages(conversationId: Swift.String, from end: Swift.Int64, limit count: Swift.Int, callback: @escaping ([IMMessageSDK.IMMessage], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func fetchMessages(localConversationId: Swift.Int, from end: Swift.Int64, limit count: Swift.Int, callback: @escaping ([IMMessageSDK.IMMessage], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func fetchMessages(conversation: IMMessageSDK.IMConversation, from end: Swift.Int64, limit count: Swift.Int, callback: @escaping ([IMMessageSDK.IMMessage], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getMessages(conversationId: Swift.String, from: Swift.Int64, count: Swift.Int, fill: Swift.Bool = false, callback: @escaping ([IMMessageSDK.IMMessage], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getMessages(localConversationId: Swift.Int, from: Swift.Int64, count: Swift.Int, fill: Swift.Bool = false, callback: @escaping ([IMMessageSDK.IMMessage], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getMessage(messageId: Swift.String, callback: @escaping (IMMessageSDK.IMMessage?, Swift.Error?) -> Swift.Void) throws
+  @objc dynamic public func getMessages(messageIds: [Swift.String], callback: @escaping ([Swift.String : IMMessageSDK.IMMessage], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getLatestMessage(localConversationId: Swift.Int, callback: @escaping (IMMessageSDK.IMMessage?, Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getLatestMessages(localConversationIds: [Swift.Int], callback: @escaping ([IMMessageSDK.IMMessage], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getLatestMessage(conversationId: Swift.String, callback: @escaping (IMMessageSDK.IMMessage?, Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getLatestMessages(conversationIds: [Swift.String], callback: @escaping ([IMMessageSDK.IMMessage], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func fetchConversationIfunavailable(conversationIds: [Swift.String], callback: @escaping ([IMMessageSDK.IMConversation], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getConversation(localConversationId: Swift.Int, callback: @escaping (IMMessageSDK.IMConversation?, Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getConversations(localConversationIds: [Swift.Int], callback: @escaping ([IMMessageSDK.IMConversation], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getPrivateConversation(targetUid: Swift.String, callback: @escaping (IMMessageSDK.IMConversation?, Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getPrivateConversations(targetUids: [Swift.String], callback: @escaping ([Swift.String : IMMessageSDK.IMConversation], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getConversation(conversationId: Swift.String, callback: @escaping (IMMessageSDK.IMConversation?, Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getConversations(conversationIds: [Swift.String], callback: @escaping ([Swift.String : IMMessageSDK.IMConversation], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getConversations(from: Swift.Int64, count: Swift.Int, callback: @escaping ([IMMessageSDK.IMConversation], Swift.Error?) -> Swift.Void)
+  @objc dynamic public func getTotalUnreadCount(callback: @escaping (Swift.Int, Swift.Error?) -> Swift.Void)
+  @objc dynamic public func clearConversationUnreads(localConversationId: Swift.Int, callback: ((Swift.Bool) -> Swift.Void)? = nil)
+  @objc dynamic public func subscribeOnline(with userIds: [Swift.String]?, callback: ((Swift.Bool, Swift.String?) -> Swift.Void)? = nil)
+  @objc dynamic public func unsubscribeOnline(with userIds: [Swift.String]?, callback: ((Swift.Bool, Swift.String?) -> Swift.Void)? = nil)
+}
+extension IMMessageSDK.IMMessager {
+  @objc dynamic public func registerInvalidRealmCallback(_ callback: IMMessageSDK.InvalidRealmCallback)
+  @objc dynamic public func unregisterInvalidRealmCallback(_ callback: IMMessageSDK.InvalidRealmCallback)
+  @objc dynamic public func registerInvalidAccessTokenCallback(_ callback: IMMessageSDK.InvalidAccessTokenCallback)
+  @objc dynamic public func unregisterInvalidAccessTokenCallback(_ callback: IMMessageSDK.InvalidAccessTokenCallback)
+  @objc dynamic public func registerCommandReceivedCallback(_ callback: IMMessageSDK.ReceivedCommandCallback)
+  @objc dynamic public func unregisterCommandReceivedCallback(_ callback: IMMessageSDK.ReceivedCommandCallback)
+  @objc dynamic public func registerMessageReceivedCallback(_ callback: IMMessageSDK.ReceivedMessageCallback)
+  @objc dynamic public func unregisterMessageReceivedCallback(_ callback: IMMessageSDK.ReceivedMessageCallback)
+  @objc dynamic public func registerConversationUpdatedCallback(_ callback: IMMessageSDK.UpdatedConversationCallback)
+  @objc dynamic public func unregisterConversationUpdatedCallback(_ callback: IMMessageSDK.UpdatedConversationCallback)
+  @objc dynamic public func registerMessageSyncedSuccessCallback(_ callback: IMMessageSDK.MessageSyncCallback)
+  @objc dynamic public func unregisterMessageSyncedSuccessCallback(_ callback: IMMessageSDK.MessageSyncCallback)
+  @objc dynamic public func registerSocketStatusCallback(_ callback: IMMessageSDK.SocketStatusCallback)
+  @objc dynamic public func unregisterSocketStatusCallback(_ callback: IMMessageSDK.SocketStatusCallback)
+}
+@objc public enum IMCommandType : Swift.Int {
+  case unknownCommand = 0
+  case conversationCreation
+  case projectCustomized
+  case privateMessageAck
+  case userOnlineStatus
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class IMNextMessageId {
+  public class func get(currentTime: Swift.UInt64 = UInt64(Date().currentTimeMillis())) -> Swift.String
+  @objc deinit
+}
+public struct Nightfury {
+  public static let version: Swift.String
+}
+@objc public enum IMMessageType : Swift.Int {
+  case unknownMessage = 0
+  case textMessage
+  case notificationMessage
+  case systemMessage
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension IMMessageSDK.IMPendingMessageType : Swift.Equatable {}
+extension IMMessageSDK.IMPendingMessageType : Swift.Hashable {}
+extension IMMessageSDK.IMPendingMessageType : Swift.RawRepresentable {}
+extension IMMessageSDK.IMConversationType : Swift.Equatable {}
+extension IMMessageSDK.IMConversationType : Swift.Hashable {}
+extension IMMessageSDK.IMConversationType : Swift.RawRepresentable {}
+extension IMMessageSDK.IMCommandType : Swift.Equatable {}
+extension IMMessageSDK.IMCommandType : Swift.Hashable {}
+extension IMMessageSDK.IMCommandType : Swift.RawRepresentable {}
+extension IMMessageSDK.IMMessageType : Swift.Equatable {}
+extension IMMessageSDK.IMMessageType : Swift.Hashable {}
+extension IMMessageSDK.IMMessageType : Swift.RawRepresentable {}
